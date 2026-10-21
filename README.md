@@ -64,37 +64,6 @@ Adrestia Cozy Macchiato/
 
 The asset directory must keep exactly the same name because the QSS uses relative paths.
 
-## Releases
-
-Stable releases are published from semantic version tags such as `v1.0.0`. Each release provides:
-
-- an `Adrestia-Cozy-X.Y.Z.zip` archive ready to extract into the MO2 `stylesheets` directory;
-- manually written release notes loaded from `release-notes/vX.Y.Z.md`;
-- GitHub's automatically generated source code archives in ZIP and TAR.GZ formats.
-
-The release-notes filename must exactly match the tag. For example, the `v1.0.0` release uses `release-notes/v1.0.0.md`. Publication stops if the matching file is missing or empty.
-
-## Project layout
-
-```text
-.
-|-- .github/
-|   `-- workflows/
-|       `-- release.yml
-|-- img/
-|   `-- macchiato-screenshot-01.jpg
-|-- release-notes/
-|   `-- vX.Y.Z.md
-|-- src/
-|   |-- Adrestia Cozy Macchiato.qss
-|   `-- Adrestia Cozy Macchiato/
-|       |-- icons/
-|       `-- toolbar/
-|           `-- LICENSE-TABLER.txt
-|-- LICENSE
-`-- README.md
-```
-
 ## Credits and third-party licenses
 
 - [Catppuccin Palette](https://github.com/catppuccin/palette) provides the colour palette and is licensed under the MIT License, Copyright (c) 2021 Catppuccin.
