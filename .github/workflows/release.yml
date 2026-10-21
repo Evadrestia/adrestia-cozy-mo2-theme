@@ -1,0 +1,123 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Read and validate version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          tag="${GITHUB_REF_NAME}"
+          version="${tag#v}"
+
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Tag must use the vMAJOR.MINOR.PATCH format." >&2
+            exit 1
+          fi
+
+          if ! grep -Fq "Adrestia Cozy Macchiato ${version}" "src/Adrestia Cozy Macchiato.qss"; then
+            echo "The tag version does not match the QSS header." >&2
+            exit 1
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Validate theme assets
+        shell: python
+        run: |
+          import pathlib
+          import re
+          import sys
+
+          root = pathlib.Path("src")
+          qss = root / "Adrestia Cozy Macchiato.qss"
+          asset_dir = root / "Adrestia Cozy Macchiato"
+
+          required = [
+              qss,
+              asset_dir / "icons",
+              asset_dir / "toolbar",
+              asset_dir / "toolbar" / "LICENSE-TABLER.txt",
+              pathlib.Path("LICENSE"),
+              pathlib.Path("README.md"),
+          ]
+
+          missing_required = [str(path) for path in required if not path.exists()]
+          if missing_required:
+              print("Missing required files:", file=sys.stderr)
+              for path in missing_required:
+                  print(f"- {path}", file=sys.stderr)
+              raise SystemExit(1)
+
+          content = qss.read_text(encoding="utf-8")
+          references = sorted(set(re.findall(r'url\(["\']?([^\)"\']+)', content)))
+          missing_assets = []
+
+          for reference in references:
+              relative = reference.removeprefix("./")
+              if not (root / relative).is_file():
+                  missing_assets.append(reference)
+
+          if missing_assets:
+              print("Missing QSS assets:", file=sys.stderr)
+              for reference in missing_assets:
+                  print(f"- {reference}", file=sys.stderr)
+              raise SystemExit(1)
+
+          print(f"Validated {len(references)} unique QSS asset references.")
+
+      - name: Build installable archive
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          package_dir="dist/package"
+          archive="dist/Adrestia-Cozy-${VERSION}.zip"
+
+          mkdir -p "$package_dir"
+          cp -R src/. "$package_dir/"
+          cp LICENSE "$package_dir/Adrestia Cozy Macchiato/LICENSE.txt"
+          cp README.md "$package_dir/Adrestia Cozy Macchiato/README.md"
+
+          (
+            cd "$package_dir"
+            zip -9 -r "../$(basename "$archive")" .
+          )
+
+          test -s "$archive"
+
+      - name: Publish GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          gh release create "$GITHUB_REF_NAME" \
+            "dist/Adrestia-Cozy-${VERSION}.zip#Adrestia Cozy ${VERSION} - MO2 theme" \
+            --verify-tag \
+            --title "Adrestia Cozy ${VERSION}" \
+            --generate-notes

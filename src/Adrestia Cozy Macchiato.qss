@@ -1,0 +1,981 @@
+/* mo2-base-style: Fusion */
+/*
+ * Adrestia Cozy Macchiato 1.0.0
+ * A Mod Organizer 2 theme with a Catppuccin Macchiato color scheme.
+ * Target: MO2 2.5.3 beta 12 / Qt 6 / Fusion.
+ *
+ * Catppuccin Macchiato palette:
+ * https://catppuccin.com/licensing/
+ * crust #181926 | mantle #1e2030 | base #24273a
+ * surface0 #363a4f | surface1 #494d64 | surface2 #5b6078
+ * overlay0 #6e738d | overlay1 #8087a2 | overlay2 #939ab7
+ * subtext0 #a5adcb | subtext1 #b8c0e0 | text #cad3f5
+ * lavender #b7bdf8 | blue #8aadf4 | mauve #c6a0f6
+ * red #ed8796 | peach #f5a97f | yellow #eed49f | green #a6da95
+ */
+
+/* ---------- Foundation ---------- */
+
+QWidget {
+  color: #cad3f5;
+  selection-color: #cad3f5;
+  selection-background-color: #494d64;
+}
+
+QApplication,
+QMainWindow,
+QDialog,
+QFileDialog,
+QMessageBox {
+  background-color: #1e2030;
+  color: #cad3f5;
+}
+
+QStackedWidget,
+QFrame,
+QScrollArea,
+QWidget#centralWidget,
+QWidget#dockWidgetContents {
+  background-color: transparent;
+}
+
+QFrame[autoFillBackground="true"] {
+    background-color: #1e2030;
+    border: 1px solid #494d64;
+    border-radius: 6px;
+}
+
+QFrame[autoFillBackground="true"] QLabel {
+    background-color: transparent;
+}
+
+QWidget:disabled {
+    color: #6e738d;
+}
+
+QLabel {
+    background-color: transparent;
+}
+
+LinkLabel {
+    qproperty-linkColor: #8aadf4;
+}
+
+QLabel[openExternalLinks="true"],
+QTextBrowser {
+    color: #8aadf4;
+}
+
+/* ---------- Item views and mod-list readability ---------- */
+
+QAbstractItemView,
+QTreeView,
+QTreeWidget,
+QListView,
+QListWidget,
+QTableView,
+QTableWidget,
+CategoriesTable,
+DownloadListView {
+    background-color: #24273a;
+    alternate-background-color: #292c3f;
+    color: #cad3f5;
+    border: 1px solid #363a4f;
+    border-radius: 4px;
+    outline: 0;
+    selection-background-color: #494d64;
+    selection-color: #cad3f5;
+    show-decoration-selected: 1;
+}
+
+QAbstractItemView::item {
+    min-height: 24px;
+    padding: 2px 4px;
+}
+
+QAbstractItemView::item:hover {
+    background-color: rgba(183, 189, 248, 26);
+    color: #cad3f5;
+}
+
+QAbstractItemView::item:selected,
+QTreeView::branch:selected:active {
+    background-color: #494d64;
+    color: #cad3f5;
+}
+
+QAbstractItemView::item:selected:!active {
+    background-color: #3f4359;
+}
+
+QAbstractItemView[filtered="true"] {
+    border: 1px solid #f5a97f;
+}
+
+QTreeView::branch:has-siblings:adjoins-item,
+QTreeView::branch:has-siblings:!adjoins-item,
+QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+    border-image: none;
+}
+
+QTreeView::branch:closed:has-children,
+QTreeView::branch:has-children:!has-siblings:closed {
+    image: url("./Adrestia Cozy Macchiato/icons/right.svg");
+}
+
+QTreeView::branch:open:has-children,
+QTreeView::branch:has-children:!has-siblings:open {
+    image: url("./Adrestia Cozy Macchiato/icons/down.svg");
+}
+
+/* ---------- Headers ---------- */
+
+QHeaderView {
+    background-color: #1e2030;
+    border: 0;
+}
+
+QHeaderView::section {
+    min-height: 26px;
+    background-color: #1e2030;
+    color: #b8c0e0;
+    padding: 2px 7px;
+    border: 0;
+    border-right: 1px solid #363a4f;
+    border-bottom: 1px solid #363a4f;
+}
+
+QHeaderView::section:hover {
+    background-color: #363a4f;
+    color: #cad3f5;
+}
+
+QHeaderView::down-arrow {
+    image: url("./Adrestia Cozy Macchiato/icons/down.svg");
+    width: 10px;
+    height: 10px;
+    subcontrol-position: center right;
+    padding-right: 5px;
+}
+
+QHeaderView::up-arrow {
+    image: url("./Adrestia Cozy Macchiato/icons/up.svg");
+    width: 10px;
+    height: 10px;
+    subcontrol-position: center right;
+    padding-right: 5px;
+}
+
+QTableCornerButton::section {
+    background-color: #1e2030;
+    border: 0;
+    border-right: 1px solid #363a4f;
+    border-bottom: 1px solid #363a4f;
+}
+
+/* ---------- Text fields, combo boxes and spin boxes ---------- */
+
+QLineEdit,
+QTextEdit,
+QPlainTextEdit,
+QTextBrowser,
+QAbstractSpinBox,
+QComboBox,
+ModIDLineEdit,
+TextEditor,
+HTMLEditor {
+    min-height: 24px;
+    background-color: #24273a;
+    color: #cad3f5;
+    border: 1px solid #494d64;
+    border-radius: 4px;
+    padding: 3px 7px;
+    selection-background-color: #494d64;
+    selection-color: #cad3f5;
+}
+
+QLineEdit:hover,
+QTextEdit:hover,
+QPlainTextEdit:hover,
+QAbstractSpinBox:hover,
+QComboBox:hover {
+    border-color: #6e738d;
+}
+
+QLineEdit:focus,
+QTextEdit:focus,
+QPlainTextEdit:focus,
+QAbstractSpinBox:focus,
+QComboBox:focus {
+    border-color: #b7bdf8;
+}
+
+QLineEdit:read-only,
+QTextEdit:read-only,
+QPlainTextEdit:read-only,
+QAbstractSpinBox:read-only {
+    background-color: #1e2030;
+    color: #a5adcb;
+    border-color: #363a4f;
+}
+
+QLineEdit:disabled,
+QTextEdit:disabled,
+QPlainTextEdit:disabled,
+QAbstractSpinBox:disabled,
+QComboBox:disabled {
+    background-color: #1e2030;
+    color: #6e738d;
+    border-color: #363a4f;
+}
+
+QLineEdit[valid-filter="false"] {
+    background-color: #4a2937;
+    border-color: #ed8796;
+}
+
+TextEditor {
+    qproperty-backgroundColor: #24273a;
+    qproperty-textColor: #cad3f5;
+    qproperty-highlightBackgroundColor: #363a4f;
+    background-color: #24273a;
+    color: #cad3f5;
+}
+
+TextEditor QWidget#qt_scrollarea_viewport {
+    background-color: #24273a;
+}
+
+TextEditorLineNumbers {
+    qproperty-backgroundColor: #1e2030;
+    qproperty-textColor: #6e738d;
+    background-color: #1e2030;
+    color: #6e738d;
+    border: 0;
+}
+
+QWidget#imagesThumbnails {
+    background-color: #24273a;
+    color: #cad3f5;
+    border: 0;
+}
+
+FomodInstallerWindow QScrollArea,
+FomodInstallerWindow QScrollArea > QWidget > QWidget {
+    background-color: #24273a;
+    color: #cad3f5;
+}
+
+QComboBox {
+    padding-right: 26px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 24px;
+    border: 0;
+    border-left: 1px solid #363a4f;
+}
+
+QComboBox::down-arrow {
+    image: url("./Adrestia Cozy Macchiato/icons/down.svg");
+    width: 10px;
+    height: 10px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #24273a;
+    alternate-background-color: #292c3f;
+    border: 1px solid #494d64;
+    border-radius: 4px;
+    padding: 3px;
+    selection-background-color: #494d64;
+    selection-color: #cad3f5;
+}
+
+QAbstractSpinBox {
+    padding-right: 26px;
+}
+
+QAbstractSpinBox::up-button,
+QAbstractSpinBox::down-button {
+    subcontrol-origin: border;
+    width: 22px;
+    background-color: #363a4f;
+    border: 0;
+    border-left: 1px solid #494d64;
+}
+
+QAbstractSpinBox::up-button:hover,
+QAbstractSpinBox::down-button:hover {
+    background-color: #494d64;
+}
+
+QAbstractSpinBox::up-arrow {
+    image: url("./Adrestia Cozy Macchiato/icons/up.svg");
+    width: 9px;
+    height: 9px;
+}
+
+QAbstractSpinBox::down-arrow {
+    image: url("./Adrestia Cozy Macchiato/icons/down.svg");
+    width: 9px;
+    height: 9px;
+}
+
+/* ---------- Buttons ---------- */
+
+QPushButton,
+QCommandLinkButton {
+    min-height: 26px;
+    background-color: #363a4f;
+    color: #cad3f5;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 4px 12px;
+    outline: 0;
+}
+
+QPushButton:hover,
+QCommandLinkButton:hover {
+    background-color: #494d64;
+    border-color: #5b6078;
+}
+
+QPushButton:pressed,
+QCommandLinkButton:pressed,
+QPushButton:open {
+    background-color: #5b6078;
+    border-color: #8087a2;
+}
+
+QPushButton:focus,
+QCommandLinkButton:focus {
+    border-color: #b7bdf8;
+}
+
+QPushButton:default {
+    background-color: #515777;
+    border-color: #b7bdf8;
+}
+
+QPushButton:disabled,
+QCommandLinkButton:disabled {
+    background-color: #292c3f;
+    color: #6e738d;
+    border-color: transparent;
+}
+
+QPushButton::menu-indicator,
+QToolButton::menu-indicator {
+    image: url("./Adrestia Cozy Macchiato/icons/down.svg");
+    width: 9px;
+    height: 9px;
+    subcontrol-origin: padding;
+    subcontrol-position: center right;
+    right: 5px;
+}
+
+QToolButton {
+    min-width: 26px;
+    min-height: 26px;
+    background-color: transparent;
+    color: #cad3f5;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 4px;
+    margin: 1px;
+}
+
+QToolButton:hover {
+    background-color: #363a4f;
+    border-color: #494d64;
+}
+
+QToolButton:pressed,
+QToolButton:checked,
+QToolButton:open {
+    background-color: #494d64;
+    border-color: #6e738d;
+}
+
+QToolButton:disabled {
+    color: #6e738d;
+    background-color: transparent;
+}
+
+/* ---------- MO2 action icons ---------- */
+/*
+ * MO2 deliberately resolves qproperty-icon on temporary QToolButtons whose
+ * object names match the QActions, then propagates the result to toolbars and
+ * menus. Unknown and plugin-provided actions keep their original icons.
+ */
+
+QToolButton#actionChange_Game {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/instances.svg");
+}
+
+QToolButton#actionInstallMod {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/install.svg");
+}
+
+QToolButton#actionNexus,
+QToolButton#actionModPage {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/web.svg");
+}
+
+QToolButton#actionAdd_Profile {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/profiles.svg");
+}
+
+QToolButton#action_Refresh {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/refresh.svg");
+}
+
+QToolButton#actionModify_Executables {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/executables.svg");
+}
+
+QToolButton#actionTool {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/plugins.svg");
+}
+
+QToolButton#actionSettings {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/settings.svg");
+}
+
+QToolButton#actionEndorseMO {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/favorite.svg");
+}
+
+QToolButton#actionNotifications {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/notifications.svg");
+}
+
+QToolButton#actionUpdate {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/update.svg");
+}
+
+QToolButton#actionHelp {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/help.svg");
+}
+
+QToolButton#actionExit {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/exit.svg");
+}
+
+QPushButton#listOptionsBtn {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/settings.svg");
+}
+
+QPushButton#openFolderMenu {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/folder.svg");
+}
+
+QPushButton#restoreModsButton,
+QPushButton#restoreButton {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/restore.svg");
+}
+
+QPushButton#saveModsButton,
+QPushButton#saveButton {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/backup.svg");
+}
+
+QPushButton#clearFiltersButton {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/clear.svg");
+}
+
+QPushButton#startButton {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/run.svg");
+}
+
+QPushButton#linkButton {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/link.svg");
+}
+
+QPushButton#sortButton {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/sort.svg");
+}
+
+QPushButton#dataTabRefresh,
+QPushButton#btnRefreshDownloads {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/refresh.svg");
+}
+
+QPushButton#btnQueryDownloadsInfo {
+    qproperty-icon: url("./Adrestia Cozy Macchiato/toolbar/search.svg");
+}
+
+QPushButton#startButton {
+    min-height: 30px;
+    background-color: #b7bdf8;
+    color: #181926;
+    border: 1px solid #b7bdf8;
+    border-radius: 6px;
+    padding: 5px 18px;
+    font-weight: 600;
+}
+
+QPushButton#startButton:hover {
+    background-color: #c6a0f6;
+    border-color: #c6a0f6;
+    color: #181926;
+}
+
+QPushButton#startButton:pressed {
+    background-color: #8aadf4;
+    border-color: #8aadf4;
+    color: #181926;
+}
+
+QPushButton#startButton:disabled {
+    background-color: #494d64;
+    border-color: #494d64;
+    color: #8087a2;
+}
+
+QPushButton#linkButton {
+    background-color: #292c3f;
+}
+
+QPushButton#linkButton:hover {
+    background-color: #363a4f;
+}
+
+QPushButton#displayCategoriesBtn {
+    min-width: 18px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+/* ---------- Check boxes and radio buttons ---------- */
+
+QCheckBox,
+QRadioButton,
+QGroupBox {
+    background-color: transparent;
+}
+
+QCheckBox,
+QRadioButton {
+    spacing: 7px;
+}
+
+QCheckBox::indicator,
+QTreeView::indicator,
+QListView::indicator,
+QTableView::indicator,
+QGroupBox::indicator {
+    width: 15px;
+    height: 15px;
+    background-color: #24273a;
+    border: 1px solid #6e738d;
+    border-radius: 4px;
+}
+
+QCheckBox::indicator:hover,
+QTreeView::indicator:hover,
+QListView::indicator:hover,
+QTableView::indicator:hover,
+QGroupBox::indicator:hover {
+    border-color: #b7bdf8;
+    background-color: #363a4f;
+}
+
+QCheckBox::indicator:checked,
+QTreeView::indicator:checked,
+QListView::indicator:checked,
+QTableView::indicator:checked,
+QGroupBox::indicator:checked {
+    background-color: #b7bdf8;
+    border-color: #b7bdf8;
+    image: url("./Adrestia Cozy Macchiato/icons/check.svg");
+}
+
+QCheckBox::indicator:indeterminate,
+QTreeView::indicator:indeterminate,
+QListView::indicator:indeterminate,
+QTableView::indicator:indeterminate {
+    background-color: #8aadf4;
+    border-color: #8aadf4;
+    image: url("./Adrestia Cozy Macchiato/icons/indeterminate.svg");
+}
+
+QCheckBox::indicator:disabled,
+QTreeView::indicator:disabled,
+QListView::indicator:disabled,
+QTableView::indicator:disabled,
+QGroupBox::indicator:disabled {
+    background-color: #292c3f;
+    border-color: #494d64;
+}
+
+QRadioButton::indicator {
+    width: 15px;
+    height: 15px;
+    background-color: #24273a;
+    border: 1px solid #6e738d;
+    border-radius: 8px;
+}
+
+QRadioButton::indicator:hover {
+    border-color: #b7bdf8;
+    background-color: #363a4f;
+}
+
+QRadioButton::indicator:checked {
+    background-color: #b7bdf8;
+    border-color: #b7bdf8;
+    image: url("./Adrestia Cozy Macchiato/icons/radio-dot.svg");
+}
+
+QRadioButton::indicator:disabled {
+    background-color: #292c3f;
+    border-color: #494d64;
+}
+
+/* ---------- Tabs ---------- */
+
+QTabWidget::pane {
+    background-color: transparent;
+    border: 0;
+    border-top: 1px solid #363a4f;
+    top: -1px;
+}
+
+QTabBar {
+    background-color: transparent;
+}
+
+QTabBar::tab {
+    min-height: 26px;
+    background-color: transparent;
+    color: #a5adcb;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 5px 12px;
+    margin-right: 2px;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #292c3f;
+    color: #cad3f5;
+    border-bottom-color: #6e738d;
+}
+
+QTabBar::tab:selected {
+    background-color: #292c3f;
+    color: #cad3f5;
+    border-bottom-color: #b7bdf8;
+}
+
+QTabBar::tab:disabled {
+    background-color: transparent;
+    color: #5b6078;
+    border-bottom-color: transparent;
+}
+
+QTabBar::close-button {
+    image: url("./Adrestia Cozy Macchiato/icons/close.svg");
+    subcontrol-position: right;
+}
+
+/* ---------- Menus ---------- */
+
+QMenuBar {
+    min-height: 26px;
+    background-color: #181926;
+    color: #b8c0e0;
+    border: 0;
+    border-bottom: 1px solid #363a4f;
+}
+
+QMenuBar::item {
+    background-color: transparent;
+    padding: 5px 10px;
+}
+
+QMenuBar::item:selected,
+QMenuBar::item:pressed {
+    background-color: #363a4f;
+    color: #cad3f5;
+}
+
+QMenu {
+    background-color: #24273a;
+    color: #cad3f5;
+    border: 1px solid #494d64;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+QMenu::item {
+    min-height: 22px;
+    padding: 4px 28px 4px 24px;
+    border-radius: 3px;
+}
+
+QMenu::item:selected {
+    background-color: #494d64;
+    color: #cad3f5;
+}
+
+QMenu::item:disabled {
+    color: #6e738d;
+}
+
+QMenu::separator {
+    height: 1px;
+    background-color: #494d64;
+    margin: 4px 8px;
+}
+
+QMenu::icon {
+    padding-left: 5px;
+}
+
+QMenu::right-arrow {
+    image: url("./Adrestia Cozy Macchiato/icons/right.svg");
+    width: 10px;
+    height: 10px;
+    padding-right: 7px;
+}
+
+/* ---------- Toolbars, docks and status ---------- */
+
+QToolBar {
+    background-color: #1e2030;
+    border: 0;
+    border-bottom: 1px solid #363a4f;
+    spacing: 2px;
+    padding: 3px;
+}
+
+QToolBar::handle,
+QToolBar::separator {
+    background-color: #494d64;
+    width: 1px;
+    height: 1px;
+    margin: 5px 4px;
+}
+
+QDockWidget {
+    color: #cad3f5;
+    border: 1px solid #363a4f;
+}
+
+QDockWidget::title {
+    background-color: #1e2030;
+    color: #b8c0e0;
+    padding: 6px;
+    border-bottom: 1px solid #363a4f;
+    text-align: left;
+}
+
+QStatusBar,
+StatusBar {
+    background-color: #181926;
+    color: #a5adcb;
+    border-top: 1px solid #363a4f;
+}
+
+QStatusBar::item {
+    border: 0;
+}
+
+/* ---------- Group boxes and separators ---------- */
+
+QGroupBox {
+    border: 1px solid #363a4f;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-top: 8px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    color: #b8c0e0;
+    background-color: #1e2030;
+    padding: 0 6px;
+    left: 8px;
+}
+
+QFrame[frameShape="4"],
+QFrame[frameShape="5"] {
+    color: #363a4f;
+}
+
+QSplitter::handle {
+    background-color: transparent;
+}
+
+QSplitter::handle:hover {
+    background-color: #494d64;
+}
+
+QSplitter::handle:horizontal {
+    width: 5px;
+}
+
+QSplitter::handle:vertical {
+    height: 5px;
+}
+
+/* ---------- Scroll bars ---------- */
+
+QScrollBar:vertical {
+    width: 10px;
+    background-color: transparent;
+    margin: 0;
+}
+
+QScrollBar:horizontal {
+    height: 10px;
+    background-color: transparent;
+    margin: 0;
+}
+
+QScrollBar::handle {
+    background-color: #5b6078;
+    border: 0;
+    border-radius: 5px;
+    margin: 1px;
+}
+
+QScrollBar::handle:hover {
+    background-color: #8087a2;
+}
+
+QScrollBar::handle:pressed {
+    background-color: #b7bdf8;
+}
+
+QScrollBar::handle:vertical {
+    min-height: 28px;
+}
+
+QScrollBar::handle:horizontal {
+    min-width: 28px;
+}
+
+QScrollBar::add-page,
+QScrollBar::sub-page {
+    background-color: transparent;
+}
+
+QScrollBar::add-line,
+QScrollBar::sub-line {
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border: 0;
+}
+
+/* ---------- Progress, sliders and size grips ---------- */
+
+QProgressBar {
+    min-height: 16px;
+    background-color: #292c3f;
+    color: #cad3f5;
+    border: 1px solid #494d64;
+    border-radius: 5px;
+    text-align: center;
+}
+
+QProgressBar::chunk {
+    background-color: #8aadf4;
+    border-radius: 4px;
+}
+
+QSlider::groove:horizontal {
+    height: 4px;
+    background-color: #494d64;
+    border-radius: 2px;
+}
+
+QSlider::groove:vertical {
+    width: 4px;
+    background-color: #494d64;
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    width: 14px;
+    margin: -5px 0;
+    background-color: #b7bdf8;
+    border: 1px solid #b7bdf8;
+    border-radius: 7px;
+}
+
+QSlider::handle:vertical {
+    height: 14px;
+    margin: 0 -5px;
+    background-color: #b7bdf8;
+    border: 1px solid #b7bdf8;
+    border-radius: 7px;
+}
+
+QSlider::handle:hover {
+    background-color: #c6a0f6;
+    border-color: #c6a0f6;
+}
+
+QSizeGrip {
+    background-color: transparent;
+}
+
+/* ---------- Tooltips and MO2-specific widgets ---------- */
+
+QToolTip,
+QTipLabel {
+    background-color: #363a4f;
+    color: #cad3f5;
+    border: 1px solid #6e738d;
+    border-radius: 4px;
+    padding: 5px 7px;
+}
+
+SaveGameInfoWidget {
+    background-color: #292c3f;
+    border: 1px solid #363a4f;
+    border-radius: 5px;
+}
+
+DownloadListView QLabel#installLabel {
+    color: #cad3f5;
+    background-color: transparent;
+}
+
+DownloadListView[downloadView="standard"]::item {
+    padding: 12px 8px;
+}
+
+DownloadListView[downloadView="compact"]::item {
+    padding: 4px 6px;
+}
+
+QLineEdit#notes,
+QLineEdit#comments,
+HTMLEditor#notes {
+    background-color: #292c3f;
+}
+
+QFrame#startGroup {
+    background-color: #1e2030;
+    border: 0;
+}
+
+QListWidget#executablesListBox {
+    margin-right: 6px;
+}
+
+LCDNumber,
+QLCDNumber {
+    color: #b7bdf8;
+    background-color: #1e2030;
+    border: 1px solid #363a4f;
+    border-radius: 4px;
+}
