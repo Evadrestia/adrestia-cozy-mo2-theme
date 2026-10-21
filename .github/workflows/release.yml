@@ -40,7 +40,14 @@ jobs:
             exit 1
           fi
 
+          notes_file="release-notes/${tag}.md"
+          if [[ ! -s "$notes_file" ]]; then
+            echo "Missing or empty release notes: ${notes_file}" >&2
+            exit 1
+          fi
+
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "notes_file=$notes_file" >> "$GITHUB_OUTPUT"
 
       - name: Validate theme assets
         shell: python
@@ -113,11 +120,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
+          NOTES_FILE: ${{ steps.version.outputs.notes_file }}
         run: |
           set -euo pipefail
 
           gh release create "$GITHUB_REF_NAME" \
-            "dist/Adrestia-Cozy-${VERSION}.zip#Adrestia Cozy ${VERSION} - MO2 theme" \
+            "dist/Adrestia-Cozy-${VERSION}.zip#Adrestia Cozy ${VERSION} - MO2 theme.zip" \
             --verify-tag \
             --title "Adrestia Cozy ${VERSION}" \
-            --generate-notes
+            --notes-file "$NOTES_FILE"

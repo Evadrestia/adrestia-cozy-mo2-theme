@@ -69,8 +69,10 @@ The asset directory must keep exactly the same name because the QSS uses relativ
 Stable releases are published from semantic version tags such as `v1.0.0`. Each release provides:
 
 - an `Adrestia-Cozy-X.Y.Z.zip` archive ready to extract into the MO2 `stylesheets` directory;
-- automatically generated release notes covering changes since the previous version;
+- manually written release notes loaded from `release-notes/vX.Y.Z.md`;
 - GitHub's automatically generated source code archives in ZIP and TAR.GZ formats.
+
+The release-notes filename must exactly match the tag. For example, the `v1.0.0` release uses `release-notes/v1.0.0.md`. Publication stops if the matching file is missing or empty.
 
 ## Project layout
 
@@ -81,6 +83,8 @@ Stable releases are published from semantic version tags such as `v1.0.0`. Each 
 |       `-- release.yml
 |-- img/
 |   `-- macchiato-screenshot-01.jpg
+|-- release-notes/
+|   `-- vX.Y.Z.md
 |-- src/
 |   |-- Adrestia Cozy Macchiato.qss
 |   `-- Adrestia Cozy Macchiato/
