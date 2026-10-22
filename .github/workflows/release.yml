@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Read and validate version
         id: version
@@ -40,14 +42,7 @@ jobs:
             exit 1
           fi
 
-          notes_file="release-notes/${tag}.md"
-          if [[ ! -s "$notes_file" ]]; then
-            echo "Missing or empty release notes: ${notes_file}" >&2
-            exit 1
-          fi
-
           echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "notes_file=$notes_file" >> "$GITHUB_OUTPUT"
 
       - name: Validate theme assets
         shell: python
@@ -65,6 +60,7 @@ jobs:
               asset_dir / "icons",
               asset_dir / "toolbar",
               asset_dir / "toolbar" / "LICENSE-TABLER.txt",
+              pathlib.Path("CHANGELOG.md"),
               pathlib.Path("LICENSE"),
               pathlib.Path("README.md"),
           ]
@@ -93,6 +89,65 @@ jobs:
 
           print(f"Validated {len(references)} unique QSS asset references.")
 
+      - name: Prepare release notes
+        shell: python
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          TAG: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          import os
+          import pathlib
+          import re
+          import subprocess
+          import sys
+
+          version = os.environ["VERSION"]
+          tag = os.environ["TAG"]
+          repository_url = f'{os.environ["SERVER_URL"]}/{os.environ["REPOSITORY"]}'
+
+          changelog = pathlib.Path("CHANGELOG.md").read_text(encoding="utf-8")
+          section = re.search(
+              rf"^##\s+\[?{re.escape(version)}\]?\s*$\n(.*?)(?=^##\s+\[?\d+\.\d+\.\d+\]?\s*$|\Z)",
+              changelog,
+              flags=re.MULTILINE | re.DOTALL,
+          )
+
+          if section is None or not section.group(1).strip():
+              print(f"Missing or empty CHANGELOG.md section for {version}.", file=sys.stderr)
+              raise SystemExit(1)
+
+          tags = subprocess.check_output(
+              ["git", "tag", "--list", "v[0-9]*", "--sort=-version:refname"],
+              text=True,
+          ).splitlines()
+          previous_tag = next((candidate for candidate in tags if candidate != tag), None)
+
+          if previous_tag:
+              changes_url = f"{repository_url}/compare/{previous_tag}...{tag}"
+          else:
+              changes_url = f"{repository_url}/commits/{tag}"
+
+          tag_date = subprocess.check_output(
+              ["git", "for-each-ref", "--format=%(taggerdate:short)", f"refs/tags/{tag}"],
+              text=True,
+          ).strip()
+          if not tag_date:
+              tag_date = subprocess.check_output(
+                  ["git", "show", "-s", "--format=%cs", tag],
+                  text=True,
+              ).strip()
+
+          output = pathlib.Path("dist/release-notes.md")
+          output.parent.mkdir(parents=True, exist_ok=True)
+          output.write_text(
+              f"## [{version}]({changes_url}) ({tag_date})\n\n{section.group(1).strip()}\n",
+              encoding="utf-8",
+          )
+
+          print(output.read_text(encoding="utf-8"))
+
       - name: Build installable archive
         shell: bash
         env:
@@ -120,7 +175,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
-          NOTES_FILE: ${{ steps.version.outputs.notes_file }}
         run: |
           set -euo pipefail
 
@@ -128,4 +182,4 @@ jobs:
             "dist/Adrestia-Cozy-${VERSION}.zip#Adrestia Cozy ${VERSION} - MO2 theme.zip" \
             --verify-tag \
             --title "Adrestia Cozy ${VERSION}" \
-            --notes-file "$NOTES_FILE"
+            --notes-file "dist/release-notes.md"
